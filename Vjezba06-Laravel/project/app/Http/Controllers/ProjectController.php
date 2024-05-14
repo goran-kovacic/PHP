@@ -12,9 +12,12 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::query()->orderBy('created_at','desc')->paginate(); //paginate default 15
+        $projects = Project::query()
+        ->where('user_id', request()->user()->id)
+        ->orderBy('created_at', 'desc')
+        ->paginate(); //paginate default 15
         // dd($projects); //dump
-        return view('project.index', ['project' => $projects]);
+        return view('project.index', ['projects' => $projects]);
     }
 
     /**
@@ -30,7 +33,10 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate(['name' => ['required', 'string']]);
+        $data['user_id'] = $request->user()->id;
+        $project = Project::create($data);
+        return to_route('project.show', $project)->with('message', 'Project created');
     }
 
     /**
@@ -38,6 +44,9 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
+        if($project->user_id !== request()->user()->id){
+            abort(403);
+        }
         return view('project.show', ['project' => $project]);
     }
 
@@ -54,7 +63,13 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        //
+        if($project->user_id !== request()->user()->id){
+            abort(403);
+        }
+        $data = $request->validate(['name' => ['required', 'string']]);
+
+        $project->update($data);
+        return to_route('project.show', $project)->with('message', 'Project updated');
     }
 
     /**
@@ -62,6 +77,10 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        if($project->user_id !== request()->user()->id){
+            abort(403);
+        }
+        $project->delete();
+        return to_route('project.index')->with('message', 'Project was deleted');
     }
 }
