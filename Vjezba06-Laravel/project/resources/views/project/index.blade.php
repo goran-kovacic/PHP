@@ -28,6 +28,5 @@
         <div class="p-6">
             {{ $projects->links() }}
         </div>
-
     </div>
 </x-app-layout>

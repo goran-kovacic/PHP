@@ -1,11 +1,12 @@
 <?php
 
 
+use App\Http\Controllers\ObjavaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 
-Route::redirect('/','project')->name('dashboard');
+Route::redirect('/', 'project')->name('dashboard');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     // Route::get('/project', [ProjectController::class, 'index'])->name('project.index');
@@ -18,6 +19,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     //Alternative
     Route::resource('project', ProjectController::class);
+
+    // Route::resource('objava', ObjavaController::class);
+
+    Route::get('/project/{projectId}/objava', [ObjavaController::class, 'index'])->name('objava.index');
+    Route::get('project/{project_id}/objava/create', [ObjavaController::class, 'create'])->name('objava.create');
+    Route::post('project/{project_id}/objava', [ObjavaController::class, 'store'])->name('objava.store');
+    Route::get('/objava/{id}', [ObjavaController::class, 'show'])->name('objava.show');
+    Route::get('/objava/{id}/edit', [ObjavaController::class, 'edit'])->name('objava.edit');
+    Route::put('/objava/{id}', [ObjavaController::class, 'update'])->name('objava.update');
+    Route::delete('/objava/{id}', [ObjavaController::class, 'destroy'])->name('objava.destroy');
 
 });
 
