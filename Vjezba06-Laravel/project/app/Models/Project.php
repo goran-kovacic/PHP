@@ -15,5 +15,5 @@ class Project extends Model
         return $this->hasMany(Objava::class);
     }
 
-    protected $fillable = ['name', 'user_id', 'price'];
+    protected $fillable = ['name', 'user_id', 'price', 'oib'];
 }

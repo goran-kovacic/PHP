@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Rules\OibValidationRule;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -35,9 +36,12 @@ class ProjectController extends Controller
     {
         $data = $request->validate([
             'name' => ['required', 'string'],
-            'price' => ['nullable', 'numeric', 'min:0'], 
+            'price' => ['nullable', 'numeric', 'min:0'],
+            // 'oib' => ['nullable', 'string', 'regex:/^\d{11}$/'], 
+            'oib' => ['nullable', new OibValidationRule],
         ], [
             'price.min' => 'The price must be positive.',
+            // 'oib.regex' => 'The OIB must be a string of 11 digits.',
         ]);
 
         $data['price'] = $data['price'] ?? 0;
@@ -76,9 +80,12 @@ class ProjectController extends Controller
         }
         $data = $request->validate([
             'name' => ['required', 'string'],
-            'price' => ['nullable', 'numeric', 'min:0'], 
+            'price' => ['nullable', 'numeric', 'min:0'],
+            // 'oib' => ['nullable', 'string', 'regex:/^\d{11}$/'], 
+            'oib' => ['nullable', new OibValidationRule],
         ], [
             'price.min' => 'The price must be positive.',
+            // 'oib.regex' => 'The OIB must be a string of 11 digits.',
         ]);
 
         $data['price'] = $data['price'] ?? 0;

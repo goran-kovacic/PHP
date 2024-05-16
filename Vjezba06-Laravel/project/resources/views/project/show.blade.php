@@ -23,5 +23,10 @@
                     <span>Price: </span>{{ $project->price }}
                 </div>
             </div>
+            <div class="project">
+                <div class="project-body">
+                    <span>OIB: </span>{{ $project->oib }}
+                </div>
+            </div>
         </div>
 </x-app-layout>
