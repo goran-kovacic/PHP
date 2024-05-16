@@ -13,11 +13,9 @@ return new class extends Migration {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->decimal('price', 10, 2)->nullable();
             $table->foreignId('user_id')->constrained('users');
             $table->timestamps();
-            // $table->date('creationDate')->default(now());
-            // $table->date('creationDate')->default(now()->toDateString());
-            // $table->dateTime('creationDate')->default(now());
         });
     }
 

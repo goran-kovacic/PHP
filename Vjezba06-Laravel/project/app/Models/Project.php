@@ -10,9 +10,10 @@ class Project extends Model
 {
     use HasFactory;
 
-    public function objavas(): HasMany{
+    public function objavas(): HasMany
+    {
         return $this->hasMany(Objava::class);
     }
 
-    protected $fillable = ['name', 'user_id'];
+    protected $fillable = ['name', 'user_id', 'price'];
 }
