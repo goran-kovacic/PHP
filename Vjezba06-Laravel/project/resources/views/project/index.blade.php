@@ -9,7 +9,7 @@
                     <div class="project-body">
                         <br>
                         {{ $project->name }} <br>
-                        {{ $project->created_at->toDateString() }} <br>
+                        {{-- {{ $project->created_at->toDateString() }} <br> --}}
 
                     </div>
                     <div class="project-buttons">

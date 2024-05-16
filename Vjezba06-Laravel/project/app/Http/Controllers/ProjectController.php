@@ -40,9 +40,13 @@ class ProjectController extends Controller
             // 'oib' => ['nullable', 'string', 'regex:/^\d{11}$/'], 
             'oib' => ['nullable', new OibValidationRule],
         ], [
-            'price.min' => 'The price must be positive.',
-            // 'oib.regex' => 'The OIB must be a string of 11 digits.',
+            'price.min' => 'price must be positive.',
+            // 'oib.regex' => 'must be a string of 11 digits.',
         ]);
+
+        if (Project::where('oib', $data['oib'])->exists()) {
+            return redirect()->back()->withInput()->withErrors(['oib' => 'existing oib']);
+        }
 
         $data['price'] = $data['price'] ?? 0;
 
