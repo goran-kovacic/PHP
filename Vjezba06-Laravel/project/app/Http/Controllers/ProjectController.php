@@ -82,18 +82,21 @@ class ProjectController extends Controller
         if ($project->user_id !== request()->user()->id) {
             abort(403);
         }
-        $data = $request->validate([
+
+        $data = $request->except('_token');
+
+        $request->validate([
             'name' => ['required', 'string'],
-            'price' => ['nullable', 'numeric', 'min:0'],
-            // 'oib' => ['nullable', 'string', 'regex:/^\d{11}$/'], 
-            'oib' => ['nullable', new OibValidationRule],
+            'price' => ['nullable', 'numeric', 'min:0'], 
+            'oib' => ['nullable'],
         ], [
-            'price.min' => 'The price must be positive.',
-            // 'oib.regex' => 'The OIB must be a string of 11 digits.',
+            'price.min' => 'The price must be positive.'
         ]);
 
-        if (Project::where('oib', $data['oib'])->exists()) {
-            return redirect()->back()->withInput()->withErrors(['oib' => 'existing oib']);
+        if ($data['oib'] != Project::where('oib', $data['oib'])) {
+            $request->validate([
+                'oib' => [new OibValidationRule],
+            ]);
         }
 
         $data['price'] = $data['price'] ?? 0;
