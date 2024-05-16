@@ -35,8 +35,13 @@ class ProjectController extends Controller
     {
         $data = $request->validate([
             'name' => ['required', 'string'],
-            'price' => ['nullable', 'numeric'],
+            'price' => ['nullable', 'numeric', 'min:0'], 
+        ], [
+            'price.min' => 'The price must be positive.',
         ]);
+
+        $data['price'] = $data['price'] ?? 0;
+
         $data['user_id'] = $request->user()->id;
         $project = Project::create($data);
         return to_route('project.show', $project)->with('message', 'Project created');
@@ -69,7 +74,14 @@ class ProjectController extends Controller
         if ($project->user_id !== request()->user()->id) {
             abort(403);
         }
-        $data = $request->validate(['name' => ['required', 'string']]);
+        $data = $request->validate([
+            'name' => ['required', 'string'],
+            'price' => ['nullable', 'numeric', 'min:0'], 
+        ], [
+            'price.min' => 'The price must be positive.',
+        ]);
+
+        $data['price'] = $data['price'] ?? 0;
 
         $project->update($data);
         return to_route('project.show', $project)->with('message', 'Project updated');
