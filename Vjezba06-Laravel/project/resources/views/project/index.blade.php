@@ -3,6 +3,10 @@
         <a href="{{ route('project.create') }}" class="new-project-btn">
             New project
         </a>
+
+        <a href="{{ route('uploads.create') }}" class="new-project-btn">
+            Upload file
+        </a>
         <div class="projects">
             @foreach ($projects as $project)
                 <div class="project">

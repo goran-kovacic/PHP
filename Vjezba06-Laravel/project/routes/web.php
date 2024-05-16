@@ -4,9 +4,12 @@
 use App\Http\Controllers\ObjavaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\UploadController;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', 'project')->name('dashboard');
+
+
 
 Route::middleware(['auth', 'verified'])->group(function () {
     // Route::get('/project', [ProjectController::class, 'index'])->name('project.index');
@@ -29,6 +32,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/objava/{id}/edit', [ObjavaController::class, 'edit'])->name('objava.edit');
     Route::put('/objava/{id}', [ObjavaController::class, 'update'])->name('objava.update');
     Route::delete('/objava/{id}', [ObjavaController::class, 'destroy'])->name('objava.destroy');
+
+    Route::get('uploads/', [UploadController::class, 'index'])->name('uploads.index');
+    Route::get('uploads/create', [UploadController::class, 'create'])->name('uploads.create');
+    Route::post('uploads/create', [UploadController::class, 'create'])->name('uploads.create');
+    Route::post('uploads/store', [UploadController::class, 'store'])->name('uploads.store');
+
+
 
 });
 
