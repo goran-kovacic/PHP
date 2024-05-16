@@ -92,6 +92,10 @@ class ProjectController extends Controller
             // 'oib.regex' => 'The OIB must be a string of 11 digits.',
         ]);
 
+        if (Project::where('oib', $data['oib'])->exists()) {
+            return redirect()->back()->withInput()->withErrors(['oib' => 'existing oib']);
+        }
+
         $data['price'] = $data['price'] ?? 0;
 
         $project->update($data);
