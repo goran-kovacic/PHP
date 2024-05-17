@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Rules\OibValidationRule;
 use Illuminate\Http\Request;
+use App\Http\Requests\ProjectStoreRequest;
+use App\Http\Requests\ProjectUpdateRequest;
 
 class ProjectController extends Controller
 {
@@ -32,25 +34,17 @@ class ProjectController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProjectStoreRequest $request)
     {
-        $data = $request->validate([
-            'name' => ['required', 'string'],
-            'price' => ['nullable', 'numeric', 'min:0'],
-            // 'oib' => ['nullable', 'string', 'regex:/^\d{11}$/'], 
-            'oib' => ['nullable', new OibValidationRule],
-        ], [
-            'price.min' => 'price must be positive.',
-            // 'oib.regex' => 'must be a string of 11 digits.',
-        ]);
+        $data = $request->validated();
 
         if (Project::where('oib', $data['oib'])->exists()) {
             return redirect()->back()->withInput()->withErrors(['oib' => 'existing oib']);
         }
 
         $data['price'] = $data['price'] ?? 0;
-
         $data['user_id'] = $request->user()->id;
+
         $project = Project::create($data);
         return to_route('project.show', $project)->with('message', 'Project created');
     }
@@ -77,27 +71,23 @@ class ProjectController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Project $project)
+    public function update(ProjectUpdateRequest $request, Project $project)
     {
         if ($project->user_id !== request()->user()->id) {
             abort(403);
         }
 
-        $data = $request->except('_token');
-
-        $request->validate([
-            'name' => ['required', 'string'],
-            'price' => ['nullable', 'numeric', 'min:0'], 
-            'oib' => ['nullable'],
-        ], [
-            'price.min' => 'The price must be positive.'
-        ]);
-
-        if ($data['oib'] != Project::where('oib', $data['oib'])) {
-            $request->validate([
-                'oib' => [new OibValidationRule],
-            ]);
+        $data = $request->validated();     
+        
+        if($data['oib'] != $project->oib && Project::where('oib',$data['oib'])->exists()){
+            return redirect()->back()->withInput()->withErrors(['oib' => 'existing oib']);
         }
+
+        // if ($data['oib'] != Project::where('oib', $data['oib'])) {
+        //     $request->validate([
+        //         'oib' => [new OibValidationRule],
+        //     ]);
+        // }
 
         $data['price'] = $data['price'] ?? 0;
 
