@@ -30,6 +30,9 @@ class ProjectStoreRequest extends FormRequest
         ];
     }
 
+    // https://medium.com/@vannyvanngoggygogg/laravel-on-modals-2c41a98898e4
+    // https://medium.com/@vannyvanngoggygogg/laravel-on-modals-validation-c4e7fbe2e256
+
     public function messages(){
         return[
             'price.min' => 'price must be positive',
