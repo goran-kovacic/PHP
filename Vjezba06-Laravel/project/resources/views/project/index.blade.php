@@ -4,7 +4,7 @@
             New project
         </a>
 
-        <a href="{{ route('uploads.create') }}" class="new-project-btn">
+        <a href="/upload-file" class="new-project-btn">
             Upload file
         </a>
         <div class="projects">
