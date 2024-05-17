@@ -83,12 +83,6 @@ class ProjectController extends Controller
             return redirect()->back()->withInput()->withErrors(['oib' => 'existing oib']);
         }
 
-        // if ($data['oib'] != Project::where('oib', $data['oib'])) {
-        //     $request->validate([
-        //         'oib' => [new OibValidationRule],
-        //     ]);
-        // }
-
         $data['price'] = $data['price'] ?? 0;
 
         $project->update($data);

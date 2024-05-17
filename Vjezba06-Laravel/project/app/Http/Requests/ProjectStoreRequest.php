@@ -22,6 +22,7 @@ class ProjectStoreRequest extends FormRequest
      */
     public function rules(): array
     {
+        
         return [
             'name' => ['required','string'],
             'price' => ['nullable', 'numeric','min:0'],
