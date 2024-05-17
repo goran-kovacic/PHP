@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\FileUpload;
 use App\Http\Controllers\ObjavaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
@@ -31,14 +32,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/objava/{id}', [ObjavaController::class, 'show'])->name('objava.show');
     Route::get('/objava/{id}/edit', [ObjavaController::class, 'edit'])->name('objava.edit');
     Route::put('/objava/{id}', [ObjavaController::class, 'update'])->name('objava.update');
-    Route::delete('/objava/{id}', [ObjavaController::class, 'destroy'])->name('objava.destroy');
+    Route::delete('/objava/{id}', [ObjavaController::class, 'destroy'])->name('objava.destroy');  
 
-    Route::get('uploads/', [UploadController::class, 'index'])->name('uploads.index');
-    Route::get('uploads/create', [UploadController::class, 'create'])->name('uploads.create');
-    Route::post('uploads/create', [UploadController::class, 'create'])->name('uploads.create');
-    Route::post('uploads/store', [UploadController::class, 'store'])->name('uploads.store');
-
-
+    Route::get('/upload-file', [FileUpload::class, 'createForm']);
+    Route::post('/upload-file', [FileUpload::class, 'fileUpload'])->name('fileUpload');
 
 });
 
