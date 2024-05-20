@@ -41,7 +41,7 @@ class OibValidationRule implements Rule{
 
     public function message()
     {
-        return 'not a valid OIB';
+        return 'Not a valid OIB';
     }
 
 }

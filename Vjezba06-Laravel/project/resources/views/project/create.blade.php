@@ -6,9 +6,12 @@
             @error('oib')
                 <div class="text-red-500">{{ $message }}</div>
             @enderror
+            @error('price')
+                <div class="text-red-500">{{ $message }}</div>
+            @enderror
             <textarea name="name" rows="10" class="project-body" placeholder="Type in your project name"></textarea>
             <span>Price: </span>
-            <input type="text" pattern="[0-9]+(\.[0-9]+)?" name="price" class="project-price"
+            <input type="text" name="price" class="project-price"
                 placeholder="Enter the price" title="enter a positive decimal number">
 
             <span>OIB: </span>

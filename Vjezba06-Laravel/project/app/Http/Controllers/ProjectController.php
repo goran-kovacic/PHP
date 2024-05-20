@@ -38,9 +38,9 @@ class ProjectController extends Controller
     {
         $data = $request->validated();
 
-        if (Project::where('oib', $data['oib'])->exists()) {
-            return redirect()->back()->withInput()->withErrors(['oib' => 'existing oib']);
-        }
+        // if (Project::whereNotNull('oib')->where('oib', $data['oib'])->exists()) {
+        //     return redirect()->back()->withInput()->withErrors(['oib' => 'Existing oib']);
+        // }
 
         $data['price'] = $data['price'] ?? 0;
         $data['user_id'] = $request->user()->id;
@@ -79,9 +79,9 @@ class ProjectController extends Controller
 
         $data = $request->validated();     
         
-        if($data['oib'] != $project->oib && Project::where('oib',$data['oib'])->exists()){
-            return redirect()->back()->withInput()->withErrors(['oib' => 'existing oib']);
-        }
+        // if($data['oib'] != $project->oib && Project::where('oib',$data['oib'])->exists()){
+        //     return redirect()->back()->withInput()->withErrors(['oib' => 'existing oib']);
+        // }
 
         $data['price'] = $data['price'] ?? 0;
 

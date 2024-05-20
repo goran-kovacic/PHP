@@ -7,6 +7,9 @@
             @error('oib')
                 <div class="text-red-500">{{ $message }}</div>
             @enderror
+            @error('price')
+                <div class="text-red-500">{{ $message }}</div>
+            @enderror
             <textarea name="name" rows="10" class="project-body" placeholder="Enter your project here">{{ $project->name }}</textarea>
             <span>Price: </span>
             <input type="text" name="price" class="project-price"
